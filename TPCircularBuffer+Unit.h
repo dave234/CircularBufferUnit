@@ -15,59 +15,58 @@ extern "C" {
 #import "TPCircularBuffer.h"
 
 /**
- @brief Utilitiy functions for writing arbitrary sized values to a TPCircularBuffer.
- 
- @discussion
- TPCircularBufferUnitHead prepares the internal buffer using a header struct that store the
- length and type, then returns a pointer to write to. TPCircularBufferUnitProduce
- will advance the head by the length provided in the call to TPCircularBufferUnitHead plus
- the length of the internal header struct.  TPCircularBufferUnitTail will return the first
- pointer that was produced, and TPCircularBufferUnitConsume will consume it.  The type
- arguments can be used to determine what kind of value is being written so that it can be
- cast to the correct type when retrieved.  It is important to use TPCircularBufferUnitProduce
- only after a call to TPCircularBufferUnitHead, and to use TPCircularBufferUnitTail to retrieve
- values that were written using TPCircularBufferUnitHead/TPCircularBufferUnitProduce.
- TPCircularBufferUnitConsume can be called without calling TPCircularBufferUnitTail.
-
+ * @brief Utilitiy functions for writing arbitrary sized values to a TPCircularBuffer.
+ *
+ * @discussion
+ * TPCircularBufferUnitHead prepares the internal buffer using a header struct that store the
+ * length and type, then returns a pointer to write to. TPCircularBufferUnitProduce
+ * will advance the head by the length provided in the call to TPCircularBufferUnitHead plus
+ * the length of the internal header struct.  TPCircularBufferUnitTail will return the first
+ * pointer that was produced, and TPCircularBufferUnitConsume will consume it.  The type
+ * arguments can be used to determine what kind of value is being written so that it can be
+ * cast to the correct type when retrieved.  It is important to use TPCircularBufferUnitProduce
+ * only after a call to TPCircularBufferUnitHead, and to use TPCircularBufferUnitTail to retrieve
+ * values that were written using TPCircularBufferUnitHead/TPCircularBufferUnitProduce.
+ * TPCircularBufferUnitConsume can be called without calling TPCircularBufferUnitTail.
 */
 
 /**
- @brief Returns a pointer for writing.
-
- @discussion Should be followed by a call to TPCircularBufferUnitProduce.
-
- @param buffer The circular buffer.
- @param type A pointer to a flag that can be retrieved using TPCircularBufferUnitTail.  Can be NULL.
- @param length the byteSize of the value that will be written to head.
+ * @brief Returns a pointer for writing.
+ *
+ * @discussion Should be followed by a call to TPCircularBufferUnitProduce.
+ *
+ * @param buffer The circular buffer.
+ * @param type A pointer to a flag that can be retrieved using TPCircularBufferUnitTail.  Can be NULL.
+ * @param length the byteSize of the value that will be written to head.
  */
 void *TPCircularBufferUnitHead(TPCircularBuffer *buffer, uint32_t *type, int length);
 
 /**
- @brief Moves buffer head forward by length specified in TPCircularBufferUnitHead.
-
- @discussion Must be proceeded by a call to TPCircularBufferUnitHead.
-
- @param buffer The circular buffer.
+ * @brief Moves buffer head forward by length specified in TPCircularBufferUnitHead.
+ *
+ * @discussion Must be proceeded by a call to TPCircularBufferUnitHead.
+ *
+ * @param buffer The circular buffer.
  */
 void TPCircularBufferUnitProduce(TPCircularBuffer *buffer);
 
 /**
- @brief Returns a pointer for reading.
-
- @discussion Follow with TPCircularBufferUnitConsume to consume value read.
-
- @param buffer The circular buffer.
- @param type On output, a flag that was set with TPCircularBufferUnitHead.  Can be NULL.
- @param length On output, the byteSize of the value that was read. Can be NULL.
+ * @brief Returns a pointer for reading.
+ *
+ * @discussion Follow with TPCircularBufferUnitConsume to consume value read.
+ *
+ * @param buffer The circular buffer.
+ * @param type On output, a flag that was set with TPCircularBufferUnitHead.  Can be NULL.
+ * @param length On output, the byteSize of the value that was read. Can be NULL.
  */
 void *TPCircularBufferUnitTail(TPCircularBuffer *buffer, uint32_t *type, int *length);
 
 /**
- @brief Consumes the next value in buffer.
-
- @discussion Does not have to be proceeded by TPCircularBufferUnitTail.
- 
- @param buffer The circular buffer.
+ * @brief Consumes the next value in buffer.
+ *
+ * @discussion Does not have to be proceeded by TPCircularBufferUnitTail.
+ *
+ * @param buffer The circular buffer.
  */
 void TPCircularBufferUnitConsume(TPCircularBuffer *buffer);
 
